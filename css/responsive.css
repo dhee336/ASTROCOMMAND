@@ -1,0 +1,89 @@
+/* ==========================================================================
+   ASTRO COMMAND — responsive adjustments (redesign)
+   ========================================================================== */
+
+/* ---------- Tablets & small laptops ---------- */
+@media (max-width: 1020px) {
+  .dash-layout {
+    grid-template-columns: 1fr;
+  }
+
+  /* Keep the day-control visible near the actions on tablets */
+  .dash-col--side { order: 2; }
+  .dash-col--side .chart-card { order: 1; }
+}
+
+/* ---------- Phones ---------- */
+@media (max-width: 640px) {
+  .screen { padding: 1rem 1rem 0; }
+
+  .topbar { padding: 0.5rem 0.8rem; }
+  .topbar__inner { gap: 0.5rem; }
+  .topbar__logo-text { font-size: 0.85rem; }
+  .nav-link { padding: 0.4rem 0.75rem; font-size: 0.8rem; }
+
+  .hero { padding: 2.5rem 0.25rem 2.5rem; gap: 1rem; }
+  .hero__eyebrow { font-size: 0.58rem; letter-spacing: 0.18em; padding: 0.4rem 0.85rem; }
+  .hero__status { gap: 0.9rem; font-size: 0.58rem; }
+
+  .resume-banner { flex-direction: column; align-items: stretch; }
+  .resume-banner__actions { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+
+  .dash-header { gap: 0.9rem; padding: 1rem 1.1rem; }
+  .dash-header__chips { margin-left: 0; width: 100%; }
+  .dash-header__chips .dash-chip { flex: 1; justify-content: center; }
+  .dash-progress { min-width: 100%; }
+
+  .stat-grid { grid-template-columns: repeat(2, 1fr); }
+
+  .action-grid { grid-template-columns: 1fr; }
+
+  .mission-card { padding: 1.4rem; }
+
+  .modal { padding: 1.3rem 1.15rem 1.5rem; }
+  .modal__title { font-size: 1.2rem; }
+
+  .results-score { font-size: 3rem; }
+
+  .screen-footer { flex-direction: column; }
+  .screen-footer .btn { width: 100%; }
+
+  .landing-grid,
+  .briefing-grid,
+  .learn-grid,
+  .results-grid { grid-template-columns: 1fr; }
+
+  .info-card { padding: 1.3rem; }
+}
+
+/* ---------- Very narrow phones ---------- */
+@media (max-width: 380px) {
+  .stat-grid { grid-template-columns: 1fr; }
+  .stat-card { flex-direction: row; justify-content: space-between; text-align: left; }
+  .stat-card__gauge { width: 66px; height: 66px; }
+  .stat-card__value { font-size: 1.1rem; }
+  .stat-card__name { text-align: right; }
+  .hero__actions .btn { width: 100%; }
+  .topbar__logo-text em { display: none; }
+}
+
+/* ---------- Reduced motion accessibility ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .star,
+  .shooting-star,
+  .planet--ringed,
+  .planet--small,
+  .moon,
+  .nebula--one,
+  .nebula--two,
+  .pulse-dot,
+  .resume-banner__dot,
+  .modal__tag-dot,
+  .stat-card--critical .stat-card__ring,
+  .dash-chip--bad { animation: none; }
+
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
