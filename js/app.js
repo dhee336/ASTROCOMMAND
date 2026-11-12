@@ -225,6 +225,7 @@ const App = (() => {
           toast(result.message, "bad");
           return;
         }
+        window.Sound?.play("action");
         persist();
         renderDashboard();
         toast(result.message, "good");
@@ -343,6 +344,7 @@ const App = (() => {
     });
 
     $("event-modal").classList.remove("hidden");
+    window.Sound?.play("alert");
   }
 
   function chooseEventOption(index) {
@@ -372,6 +374,7 @@ const App = (() => {
 
   function advanceDay() {
     if (!state || state.status !== "active") return;
+    window.Sound?.play("day");
 
     const result = GameEngine.endDay(state);
     persist();
@@ -438,6 +441,7 @@ const App = (() => {
       .map((line) => `<li>${line}</li>`).join("");
 
     showScreen("screen-results");
+    window.Sound?.play(results.success ? "success" : "fail");
   }
 
   /** Ease-out cubic count-up animation for the final mission score. */

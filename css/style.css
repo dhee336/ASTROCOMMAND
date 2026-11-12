@@ -237,6 +237,18 @@ button { font-family: inherit; }
   mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent 85%);
 }
 
+/* ---- Cinematic 3D scene (Phase 2) ----
+   The WebGL canvas replaces the CSS planets/stars when active;
+   if WebGL or the CDN is unavailable, this block simply never applies. */
+#scene3d { position: absolute; inset: 0; }
+#scene3d canvas { display: block; width: 100%; height: 100%; }
+
+.space-scene--3d .star-field,
+.space-scene--3d .planet,
+.space-scene--3d .moon,
+.space-scene--3d .nebula,
+.space-scene--3d .grid-horizon { visibility: hidden; }
+
 @keyframes float {
   0%, 100% { transform: translateY(0); }
   50%      { transform: translateY(-20px); }
@@ -338,6 +350,9 @@ button { font-family: inherit; }
 }
 
 .nav-link--danger:hover { color: #ffb1a8; background: var(--danger-soft); }
+
+/* Sound toggle (WebAudio ambience + SFX) */
+.sound-toggle { font-size: 0.95rem; line-height: 1; }
 
 /* ==========================================================================
    Resume banner
