@@ -11,9 +11,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="css/style.css?v=11" />
-  <link rel="stylesheet" href="css/dashboard.css?v=11" />
-  <link rel="stylesheet" href="css/responsive.css?v=11" />
+  <link rel="stylesheet" href="css/style.css?v=14" />
+  <link rel="stylesheet" href="css/dashboard.css?v=14" />
+  <link rel="stylesheet" href="css/responsive.css?v=14" />
 
   <!-- Import map: lets js/three-scene.js (ES module) import Three.js from CDN with no build step.
        If the CDN is unreachable, boot3d.js catches the import failure and the CSS space scene stays. -->
@@ -434,21 +434,21 @@
   <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 
   <!-- Game modules (order matters: storage → data → engine → UI) -->
-  <script src="js/storage.js?v=11"></script>
-  <script src="js/missions.js?v=11"></script>
-  <script src="js/resources.js?v=11"></script>
-  <script src="js/events.js?v=11"></script>
-  <script src="js/game-engine.js?v=11"></script>
-  <script src="js/sound.js?v=11"></script>
-  <script src="js/app.js?v=11"></script>
+  <script src="js/storage.js?v=14"></script>
+  <script src="js/missions.js?v=14"></script>
+  <script src="js/resources.js?v=14"></script>
+  <script src="js/events.js?v=14"></script>
+  <script src="js/game-engine.js?v=14"></script>
+  <script src="js/sound.js?v=14"></script>
+  <script src="js/app.js?v=14"></script>
   <!-- GSAP animation layer (Phase 3). Self-wiring; no-ops without GSAP. -->
-  <script src="js/animation.js?v=11"></script>
+  <script src="js/animation.js?v=14"></script>
   <!-- Exterior-view panel facade (Phase 4). Dynamically boots its Three.js
        scene on first dashboard visit; CSS fallback if WebGL/module fails. -->
-  <script src="js/exterior-view.js?v=12"></script>
+  <script src="js/exterior-view.js?v=14"></script>
 
   <!-- Cinematic 3D background (Phase 2). Dynamically imported with WebGL feature
        detection — if unavailable, the CSS space scene remains as fallback. -->
-  <script src="js/boot3d.js?v=11"></script>
+  <script src="js/boot3d.js?v=14"></script>
 </body>
 </html>

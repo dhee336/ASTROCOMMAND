@@ -18,7 +18,8 @@
   .screen { padding: 1rem 1rem 0; }
 
   .topbar { padding: 0.5rem 0.8rem; }
-  .topbar__inner { gap: 0.5rem; }
+  .topbar__inner { flex-wrap: wrap; justify-content: center; row-gap: 0.3rem; }
+  .topbar__nav { flex-wrap: wrap; justify-content: center; }
   .topbar__logo-text { font-size: 0.85rem; }
   .nav-link { padding: 0.4rem 0.75rem; font-size: 0.8rem; }
 
