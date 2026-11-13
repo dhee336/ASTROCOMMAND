@@ -15,6 +15,17 @@ const App = (() => {
   /* Screen routing                                                      */
   /* ------------------------------------------------------------------ */
 
+  /**
+   * Screen registry (Phase A): screens may register onEnter/onExit hooks.
+   * Keeps showScreen() generic so the Academy and future phase screens
+   * plug in without more routing code.
+   */
+  const SCREENS = {};
+
+  function registerScreen(id, hooks) {
+    SCREENS[id] = hooks || {};
+  }
+
   function showScreen(id) {
     document.querySelectorAll(".screen").forEach((s) => {
       s.classList.toggle("screen--active", s.id === id);
@@ -25,6 +36,8 @@ const App = (() => {
     });
     window.Ani?.screen(document.getElementById(id));
     window.scrollTo({ top: 0, behavior: "smooth" });
+    const hooks = SCREENS[id];
+    if (hooks && typeof hooks.onEnter === "function") hooks.onEnter(document.getElementById(id));
   }
 
   /** All elements with data-nav or data-mission act as simple routers. */
@@ -32,7 +45,7 @@ const App = (() => {
     document.querySelectorAll("[data-nav]").forEach((el) => {
       el.addEventListener("click", () => showScreen(el.dataset.nav));
     });
-    $("nav-home").addEventListener("click", () => showScreen("screen-landing"));
+    $("nav-home").addEventListener("click", () => showScreen("screen-academy"));
     $("nav-reset").addEventListener("click", confirmFullReset);
     $("btn-start").addEventListener("click", () => showScreen("screen-select"));
     $("btn-howto").addEventListener("click", () =>
@@ -43,9 +56,12 @@ const App = (() => {
   function confirmFullReset() {
     if (!window.confirm("Reset all saved progress and missions?")) return;
     Storage.clearAll();
+    // Also wipe Academy progress (Phase A). Progression is a separate
+    // storage key, not part of protected storage.js.
+    window.Progression?.resetAll();
     state = null;
     $("resume-banner").classList.add("hidden");
-    showScreen("screen-landing");
+    showScreen("screen-academy");
     toast("All progress has been reset.", "warn");
   }
 
@@ -423,6 +439,17 @@ const App = (() => {
     const results = GameEngine.buildResults(state);
     Storage.clearMission(); // finished missions are no longer resumable
 
+    // Phase A: Master Commander missions feed the Academy progression.
+    // Presentation only — reads the existing score, changes no gameplay value.
+    const masterLevelId = window.LEVELS ? LEVELS.missionLevelId(state.missionKey) : null;
+    if (masterLevelId && window.Progression) {
+      Progression.recordLevel(
+        masterLevelId,
+        Progression.starsForScore(masterLevelId, results.score),
+        results.score
+      );
+    }
+
     const screen = $("screen-results");
     screen.classList.toggle("screen--success", results.success);
     screen.classList.toggle("screen--fail", !results.success);
@@ -571,7 +598,12 @@ const App = (() => {
     $("btn-end-day").addEventListener("click", advanceDay);
     $("btn-event-continue").addEventListener("click", continueAfterEvent);
     $("btn-restart").addEventListener("click", () => startMission(state.missionKey));
-    $("btn-home").addEventListener("click", () => showScreen("screen-landing"));
+    $("btn-home").addEventListener("click", () => showScreen("screen-academy"));
+
+    // Academy hub refreshes its stars/progress every time it is shown.
+    registerScreen("screen-academy", {
+      onEnter: () => window.Academy?.refresh(),
+    });
 
     checkForSavedMission();
     buildStarField();
@@ -580,7 +612,7 @@ const App = (() => {
 
   document.addEventListener("DOMContentLoaded", init);
 
-  return { showScreen, startMission, advanceDay };
+  return { showScreen, startMission, advanceDay, openBriefing };
 })();
 
 // Expose for console debugging and automated testing.
