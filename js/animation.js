@@ -189,6 +189,26 @@
   }
 
   /* ------------------------------------------------------------------ */
+  /* Emergency alert accents                                             */
+  /* ------------------------------------------------------------------ */
+
+  /** Subtle triple pulse on the dashboard status chip when an alert fires. */
+  function alertPulse(el) {
+    if (!el) return;
+    if (!ok()) {
+      // CSS fallback pulse (no GSAP / reduced motion → static class)
+      el.classList.add("dash-chip--pulse");
+      setTimeout(() => el.classList.remove("dash-chip--pulse"), 1600);
+      return;
+    }
+    window.gsap.fromTo(
+      el,
+      { scale: 1 },
+      { scale: 1.09, duration: 0.2, yoyo: true, repeat: 3, ease: "power1.inOut", clearProps: "transform" }
+    );
+  }
+
+  /* ------------------------------------------------------------------ */
   /* Results screen                                                      */
   /* ------------------------------------------------------------------ */
 
@@ -243,6 +263,7 @@
     resetGauges,
     modalIn,
     modalOut,
+    alertPulse,
     score,
     resultsIn,
     status,

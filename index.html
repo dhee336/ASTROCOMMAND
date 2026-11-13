@@ -11,9 +11,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="css/style.css?v=10" />
-  <link rel="stylesheet" href="css/dashboard.css?v=10" />
-  <link rel="stylesheet" href="css/responsive.css?v=10" />
+  <link rel="stylesheet" href="css/style.css?v=11" />
+  <link rel="stylesheet" href="css/dashboard.css?v=11" />
+  <link rel="stylesheet" href="css/responsive.css?v=11" />
 
   <!-- Import map: lets js/three-scene.js (ES module) import Three.js from CDN with no build step.
        If the CDN is unreachable, boot3d.js catches the import failure and the CSS space scene stays. -->
@@ -236,6 +236,24 @@
 
         <!-- Charts + log + day control -->
         <aside class="dash-col dash-col--side">
+          <div class="side-panel glass ext-card" id="ext-card">
+            <div class="ext-card__header">
+              <h3 class="dash-section-title">Exterior View</h3>
+              <div class="ext-card__controls">
+                <button id="ext-min" class="ext-btn" type="button" title="Minimize exterior view" aria-label="Minimize exterior view">–</button>
+                <button id="ext-close" class="ext-btn" type="button" title="Hide exterior view" aria-label="Hide exterior view">×</button>
+              </div>
+            </div>
+            <div class="ext-viewport" id="ext-viewport" role="img" aria-label="Decorative exterior habitat view">
+              <canvas id="ext-canvas" aria-hidden="true"></canvas>
+              <div class="ext-overlay ext-overlay--dust" aria-hidden="true"></div>
+              <div class="ext-overlay ext-overlay--solar" aria-hidden="true"></div>
+              <div class="ext-overlay ext-overlay--radiation" aria-hidden="true"></div>
+              <div class="ext-overlay ext-overlay--critical" aria-hidden="true"></div>
+              <div class="ext-hud" id="ext-hud" aria-hidden="true"></div>
+            </div>
+            <button id="ext-show" class="btn btn--ghost ext-show-btn hidden" type="button">🛰️ Show Exterior View</button>
+          </div>
           <div class="side-panel glass chart-card">
             <h3 class="dash-section-title">Resource History</h3>
             <div class="chart-wrap"><canvas id="resource-chart" aria-label="Line chart of resource levels per mission day"></canvas></div>
@@ -416,18 +434,21 @@
   <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 
   <!-- Game modules (order matters: storage → data → engine → UI) -->
-  <script src="js/storage.js?v=10"></script>
-  <script src="js/missions.js?v=10"></script>
-  <script src="js/resources.js?v=10"></script>
-  <script src="js/events.js?v=10"></script>
-  <script src="js/game-engine.js?v=10"></script>
-  <script src="js/sound.js?v=10"></script>
-  <script src="js/app.js?v=10"></script>
+  <script src="js/storage.js?v=11"></script>
+  <script src="js/missions.js?v=11"></script>
+  <script src="js/resources.js?v=11"></script>
+  <script src="js/events.js?v=11"></script>
+  <script src="js/game-engine.js?v=11"></script>
+  <script src="js/sound.js?v=11"></script>
+  <script src="js/app.js?v=11"></script>
   <!-- GSAP animation layer (Phase 3). Self-wiring; no-ops without GSAP. -->
-  <script src="js/animation.js?v=10"></script>
+  <script src="js/animation.js?v=11"></script>
+  <!-- Exterior-view panel facade (Phase 4). Dynamically boots its Three.js
+       scene on first dashboard visit; CSS fallback if WebGL/module fails. -->
+  <script src="js/exterior-view.js?v=12"></script>
 
   <!-- Cinematic 3D background (Phase 2). Dynamically imported with WebGL feature
        detection — if unavailable, the CSS space scene remains as fallback. -->
-  <script src="js/boot3d.js?v=10"></script>
+  <script src="js/boot3d.js?v=11"></script>
 </body>
 </html>

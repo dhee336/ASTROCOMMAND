@@ -80,7 +80,12 @@
   .resume-banner__dot,
   .modal__tag-dot,
   .stat-card--critical .stat-card__ring,
-  .dash-chip--bad { animation: none; }
+  .dash-chip--bad,
+  .ext-overlay--dust.is-active,
+  .ext-overlay--solar.is-active,
+  .ext-overlay--radiation.is-active,
+  .ext-overlay--critical.is-active,
+  .ext-viewport.ext-shake { animation: none; }
 
   * {
     animation-duration: 0.01ms !important;

@@ -453,6 +453,195 @@
   letter-spacing: 0.06em;
 }
 
+/* ==========================================================================
+   Exterior view panel (Phase 4)
+   ========================================================================== */
+.ext-card { padding: 1.1rem 1.2rem 1.3rem; }
+
+.ext-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+}
+
+.ext-card__header .dash-section-title { margin: 0; flex: 1; }
+
+.ext-card__controls { display: flex; gap: 0.25rem; }
+
+.ext-btn {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: rgba(124, 148, 255, 0.05);
+  color: var(--text-dim);
+  font-size: 0.95rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.ext-btn:hover {
+  color: var(--text);
+  border-color: var(--border-strong);
+  background: rgba(124, 148, 255, 0.12);
+}
+
+.ext-viewport {
+  position: relative;
+  margin-top: 0.7rem;
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--bg-deep);
+}
+
+#ext-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Effect overlays (shared by 3D and CSS-fallback modes) */
+.ext-overlay {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Martian dust: drifting haze bands + reduced-visibility veil */
+.ext-overlay--dust {
+  background:
+    linear-gradient(105deg, rgba(214, 138, 66, 0.4) 0%, rgba(190, 110, 50, 0.22) 34%, rgba(150, 84, 38, 0.34) 62%, rgba(120, 62, 28, 0.5) 100%);
+  transition: opacity 1.2s ease;
+}
+
+.ext-overlay--dust.is-active { animation: dust-drift 7s linear infinite; }
+
+@keyframes dust-drift {
+  from { background-position: 0% 0%; }
+  to   { background-position: 56% 0%; }
+}
+
+/* Solar storm: aurora-like teal shimmer */
+.ext-overlay--solar {
+  background:
+    linear-gradient(160deg, rgba(45, 212, 191, 0.28) 0%, rgba(20, 120, 110, 0.12) 40%, rgba(24, 60, 90, 0.18) 100%);
+  mix-blend-mode: screen;
+  transition: opacity 1.2s ease;
+}
+
+.ext-overlay--solar.is-active { animation: solar-shimmer 3.5s ease-in-out infinite; }
+
+@keyframes solar-shimmer {
+  0%, 100% { filter: brightness(0.85); }
+  50%      { filter: brightness(1.35); }
+}
+
+/* Radiation: red vignette, gently breathing */
+.ext-overlay--radiation {
+  background: radial-gradient(ellipse at center, transparent 42%, rgba(190, 28, 28, 0.55) 100%);
+  transition: opacity 1s ease;
+}
+
+.ext-overlay--radiation.is-active { animation: radiation-breathe 2.4s ease-in-out infinite; }
+
+@keyframes radiation-breathe {
+  0%, 100% { opacity: 0.55; }
+  50%      { opacity: 1; }
+}
+
+/* Habitat / power critical: warm alarm pulse */
+.ext-overlay--critical {
+  background: radial-gradient(ellipse at center, transparent 34%, rgba(234, 88, 12, 0.6) 100%);
+  transition: opacity 0.8s ease;
+}
+
+.ext-overlay--critical.is-active { animation: critical-alarm 1.6s ease-in-out infinite; }
+
+@keyframes critical-alarm {
+  0%, 100% { opacity: 0.35; }
+  50%      { opacity: 0.95; }
+}
+
+/* One-shot alert flash (generic emergencies) */
+.ext-overlay--radiation.ext-flash { animation: alert-flash 0.5s ease-in-out 3; }
+
+@keyframes alert-flash {
+  0%, 100% { opacity: 0.1; }
+  50%      { opacity: 1; }
+}
+
+/* Moonquake / impact shake */
+.ext-viewport.ext-shake { animation: ext-shake 0.9s ease-in-out; }
+
+@keyframes ext-shake {
+  0%, 100% { transform: translate(0, 0); }
+  15% { transform: translate(-3px, 2px); }
+  30% { transform: translate(3px, -2px); }
+  45% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  75% { transform: translate(-1px, 1px); }
+}
+
+/* HUD line */
+.ext-hud {
+  position: absolute;
+  left: 0.7rem;
+  bottom: 0.55rem;
+  padding: 0.22rem 0.6rem;
+  border-radius: var(--radius-pill);
+  background: rgba(3, 5, 13, 0.62);
+  border: 1px solid var(--hairline);
+  color: var(--text-soft);
+  font-family: var(--font-display);
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  backdrop-filter: blur(4px);
+  max-width: calc(100% - 1.4rem);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Collapsed / hidden states */
+.ext-card--min .ext-viewport { display: none; }
+.ext-card--hidden .ext-card__header,
+.ext-card--hidden .ext-viewport { display: none; }
+
+.ext-show-btn { width: 100%; margin-top: 0.4rem; padding: 0.55rem 1rem; font-size: 0.8rem; }
+
+/* CSS-fallback scene (no WebGL / module failure): painted environment */
+.ext-viewport--css::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 62%, transparent 30%, rgba(0, 0, 0, 0.35) 100%),
+    var(--ext-sky, #05070f);
+}
+
+.ext-viewport--css::after {
+  content: "";
+  position: absolute;
+  left: -6%;
+  right: -6%;
+  bottom: 0;
+  height: 38%;
+  border-radius: 46% 54% 0 0 / 18% 22% 0 0;
+  background: var(--ext-ground, #4c4e5e);
+}
+
+.ext-viewport--lunar { --ext-sky: #05070f; --ext-ground: #55575f; }
+.ext-viewport--martian { --ext-sky: #8a4a24; --ext-ground: #8a4020; }
+
 .day-control__moon {
   display: inline-block;
   transition: transform 0.4s var(--ease-out);

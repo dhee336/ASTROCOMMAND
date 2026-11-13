@@ -152,6 +152,17 @@ const App = (() => {
     statusChip.textContent = STATUS_TEXT[overall];
     statusChip.className = `dash-chip dash-chip--${overall === "good" ? "ok" : overall}`;
 
+    // Feed plain visual flags to the decorative exterior-view panel
+    // (read-only snapshot; the panel never touches game state).
+    window.ExtView?.sync({
+      missionKey: state.missionKey,
+      missionName: mission.name,
+      day: state.day,
+      radiation: Resources.statusOf("radiation", state.radiation),
+      habitat: Resources.statusOf("habitat", state.habitat),
+      power: Resources.statusOf("power", state.resources.power),
+    });
+
     const progress = ((state.day - 1) / state.maxDays) * 100;
     $("dash-progress-bar").style.width = `${progress}%`;
 
@@ -350,6 +361,8 @@ const App = (() => {
 
     $("event-modal").classList.remove("hidden");
     window.Ani?.modalIn($("event-modal"));
+    window.Ani?.alertPulse($("dash-status-label"));
+    window.ExtView?.alert(event.id);
     window.Sound?.play("alert");
   }
 
