@@ -91,7 +91,9 @@
         return;
       }
       if (section.id === "master") return; // handled by its mission buttons
-      say("This mission is still being built! Try Master Commander below 🚀");
+      // Phase B: unlocked level sections open the section screen (level list).
+      renderSection(section.id);
+      window.App?.showScreen("screen-section");
     });
 
     return card;
@@ -138,6 +140,92 @@
     return card;
   }
 
+  /* ---------- section screen (Phase B: level list for one section) ---------- */
+
+  let currentSection = null;
+
+  /**
+   * A level card is unlocked when it is the first not-yet-completed level
+   * of its section (sequential unlock): level 1 always, level N+1 once
+   * level N has at least 1 star.
+   */
+  function levelUnlocked(section, index) {
+    if (index === 0) return true;
+    const prev = section.levels[index - 1];
+    return window.Progression ? Progression.getStars(prev.id) >= 1 : false;
+  }
+
+  function levelCard(section, level, index) {
+    const prog = window.Progression;
+    const stars = prog ? prog.getStars(level.id) : 0;
+    const ready = level.status === "ready";
+    const unlocked = ready && levelUnlocked(section, index);
+    const replay = stars > 0 && unlocked;
+
+    const card = document.createElement("button");
+    card.type = "button";
+    card.disabled = !unlocked;
+    card.className = `section-card${unlocked ? "" : " section-card--locked"}${replay ? " section-card--replay" : ""}`;
+    card.setAttribute("aria-label", unlocked
+      ? `${level.title}${stars ? `, ${stars} of 3 stars` : ""}. Play`
+      : `${level.title} is locked`);
+
+    card.innerHTML = `
+      <span class="section-card__icon" aria-hidden="true">${unlocked ? level.icon : "🔒"}</span>
+      <span class="section-card__title">${level.title}</span>
+      <span class="section-card__concept">${level.concept}</span>
+      <span class="section-card__stars">${starRow(stars)}</span>
+      <span class="section-card__badge">${
+        !ready ? "Soon ⏳" : unlocked ? (replay ? `⭐ ${stars}/3 · Replay 🔁` : "Play ▶") : "Locked 🔒"
+      }</span>`;
+
+    card.addEventListener("click", () => {
+      window.Sound?.play("click");
+      if (!unlocked) {
+        say(`Finish "${section.levels[index - 1].title}" first to unlock this mission!`);
+        card.classList.remove("section-card--locked", "academy-card--wobble");
+        void card.offsetWidth;
+        card.classList.add("academy-card--wobble");
+        return;
+      }
+      say("Good luck, Commander! 🚀");
+      window.LevelRuntime?.open(level.id);
+    });
+
+    return card;
+  }
+
+  function renderSection(sectionId) {
+    const section = LEVELS.getSection(sectionId);
+    if (!section) return;
+    currentSection = sectionId;
+
+    const prog = window.Progression;
+    const stars = prog ? prog.starsInSection(sectionId) : 0;
+    const maxStars = prog ? prog.maxStarsInSection(sectionId) : section.levels.length * 3;
+    const doneLevels = prog ? prog.completedLevelsInSection(sectionId) : 0;
+
+    const title = $("section-title");
+    const sub = $("section-sub");
+    if (title) title.textContent = `${section.icon} ${section.name}`;
+    if (sub) {
+      sub.textContent = prog
+        ? `${doneLevels} of ${section.levels.length} missions done · ⭐ ${stars} / ${maxStars}`
+        : section.tagline;
+    }
+
+    const grid = $("section-levels");
+    if (!grid) return;
+    grid.innerHTML = "";
+    section.levels.forEach((level, i) => grid.appendChild(levelCard(section, level, i)));
+    window.Ani?.staggerIn(grid, ".section-card");
+  }
+
+  /** onEnter hook for the section screen (re-renders with fresh stars). */
+  function refreshSection() {
+    if (currentSection) renderSection(currentSection);
+  }
+
   /* ---------- render ---------- */
 
   function renderHeader() {
@@ -176,10 +264,13 @@
     const greeting = GREETINGS[Math.floor(Math.random() * GREETINGS.length)];
     say(greeting);
 
+    // Cold load: the Academy is the default screen, so onEnter never fires —
+    // render the star/badge chips here too.
+    renderHeader();
     build();
   }
 
   document.addEventListener("DOMContentLoaded", init);
 
-  window.Academy = { refresh, build, get isBuilt() { return built; } };
+  window.Academy = { refresh, build, renderSection, refreshSection, get isBuilt() { return built; } };
 })();

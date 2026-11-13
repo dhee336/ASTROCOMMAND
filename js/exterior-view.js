@@ -15,7 +15,7 @@
   "use strict";
 
   const PREF_KEY = "astro-command-extview";
-  const importUrl = "./exterior-view-3d.js?v=15";
+  const importUrl = "./exterior-view-3d.js?v=16";
 
   /* ---------- panel element refs ---------- */
   let card, viewport, canvas, hud, showBtn;

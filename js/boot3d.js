@@ -41,7 +41,7 @@
 
   // 3) Dynamic import: any failure (offline CDN, bad import map, module error)
   //    is caught here — the page keeps working with the CSS fallback.
-  import("./three-scene.js?v=15")
+  import("./three-scene.js?v=16")
     .then((module) => module.initSpaceScene({ holder, reducedMotion }))
     .catch((err) => {
       console.info("ASTRO COMMAND: 3D scene unavailable, using CSS fallback.", err);

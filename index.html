@@ -11,10 +11,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="css/style.css?v=15" />
-  <link rel="stylesheet" href="css/dashboard.css?v=15" />
-  <link rel="stylesheet" href="css/academy.css?v=15" />
-  <link rel="stylesheet" href="css/responsive.css?v=15" />
+  <link rel="stylesheet" href="css/style.css?v=17" />
+  <link rel="stylesheet" href="css/dashboard.css?v=17" />
+  <link rel="stylesheet" href="css/academy.css?v=17" />
+  <link rel="stylesheet" href="css/level.css?v=17" />
+  <link rel="stylesheet" href="css/responsive.css?v=17" />
 
   <!-- Import map: lets js/three-scene.js (ES module) import Three.js from CDN with no build step.
        If the CDN is unreachable, boot3d.js catches the import failure and the CSS space scene stays. -->
@@ -89,6 +90,49 @@
       <div class="screen-footer">
         <button class="btn btn--ghost" data-nav="screen-landing" type="button">📖 How to Play</button>
         <button class="btn btn--ghost" data-nav="screen-learn" type="button">🌍 Learn Space Science</button>
+      </div>
+    </section>
+
+    <!-- ============== SECTION SCREEN: level list inside one Academy section (Phase B) ============== -->
+    <section id="screen-section" class="screen">
+      <div class="screen-header">
+        <p class="screen-header__eyebrow">ACADEMY MISSIONS</p>
+        <h2 class="screen-header__title" id="section-title">Mission</h2>
+        <p class="screen-header__sub" id="section-sub"></p>
+      </div>
+      <div class="section-levels" id="section-levels"></div>
+      <div class="screen-footer">
+        <button class="btn btn--ghost" data-nav="screen-academy" type="button">← Back to Academy</button>
+      </div>
+    </section>
+
+    <!-- ============== LEVEL SCREEN: generic Academy level player (Phase B) ============== -->
+    <section id="screen-level" class="screen">
+      <div class="level-shell">
+        <div class="level-topbar">
+          <button id="level-back" class="btn btn--ghost" type="button">← Back</button>
+          <h2 class="level-topbar__title" id="level-title">Level</h2>
+          <div class="level-topbar__side">
+            <span class="level-counter" id="level-counter"></span>
+            <div class="level-progress" id="level-progress" aria-hidden="true"></div>
+          </div>
+        </div>
+        <div class="level-card glass">
+          <div class="level-guide">
+            <span class="level-guide__face" aria-hidden="true">🧑‍🚀</span>
+            <p class="level-guide__speech" id="level-speech" aria-live="polite"></p>
+          </div>
+          <h3 class="level-heading" id="level-heading"></h3>
+          <div id="level-stage"></div>
+          <div id="level-outcome" class="level-outcome hidden" aria-live="polite">
+            <span class="level-outcome__icon" id="level-outcome-icon" aria-hidden="true">✅</span>
+            <div class="level-outcome__body">
+              <p class="level-outcome__text" id="level-outcome-text"></p>
+              <p class="level-outcome__science hidden" id="level-outcome-science"></p>
+            </div>
+            <button id="level-outcome-btn" class="btn btn--primary" type="button">Next ▶</button>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -459,27 +503,29 @@
   <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 
   <!-- Game modules (order matters: storage → data → engine → UI) -->
-  <script src="js/storage.js?v=15"></script>
-  <script src="js/missions.js?v=15"></script>
-  <script src="js/resources.js?v=15"></script>
-  <script src="js/events.js?v=15"></script>
-  <script src="js/game-engine.js?v=15"></script>
-  <script src="js/sound.js?v=15"></script>
-  <script src="js/app.js?v=15"></script>
+  <script src="js/storage.js?v=17"></script>
+  <script src="js/missions.js?v=17"></script>
+  <script src="js/resources.js?v=17"></script>
+  <script src="js/events.js?v=17"></script>
+  <script src="js/game-engine.js?v=17"></script>
+  <script src="js/sound.js?v=17"></script>
+  <script src="js/app.js?v=17"></script>
   <!-- GSAP animation layer (Phase 3). Self-wiring; no-ops without GSAP. -->
-  <script src="js/animation.js?v=15"></script>
+  <script src="js/animation.js?v=17"></script>
   <!-- Exterior-view panel facade (Phase 4). Dynamically boots its Three.js
        scene on first dashboard visit; CSS fallback if WebGL/module fails. -->
-  <script src="js/exterior-view.js?v=15"></script>
+  <script src="js/exterior-view.js?v=17"></script>
 
   <!-- Academy progression foundations (Phase A). Data + persistence +
        hub UI; all self-wiring and safe no-ops if any module fails. -->
-  <script src="js/progression.js?v=15"></script>
-  <script src="js/levels.js?v=15"></script>
-  <script src="js/academy.js?v=15"></script>
+  <script src="js/progression.js?v=17"></script>
+  <script src="js/levels.js?v=17"></script>
+  <script src="js/academy-levels.js?v=17"></script>
+  <script src="js/academy.js?v=17"></script>
+  <script src="js/level-runtime.js?v=17"></script>
 
   <!-- Cinematic 3D background (Phase 2). Dynamically imported with WebGL feature
        detection — if unavailable, the CSS space scene remains as fallback. -->
-  <script src="js/boot3d.js?v=15"></script>
+  <script src="js/boot3d.js?v=17"></script>
 </body>
 </html>

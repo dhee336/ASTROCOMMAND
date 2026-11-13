@@ -604,6 +604,10 @@ const App = (() => {
     registerScreen("screen-academy", {
       onEnter: () => window.Academy?.refresh(),
     });
+    // Section screen (Phase B) re-renders its level list with fresh stars.
+    registerScreen("screen-section", {
+      onEnter: () => window.Academy?.refreshSection?.(),
+    });
 
     checkForSavedMission();
     buildStarField();
