@@ -23,6 +23,7 @@ const App = (() => {
     document.querySelectorAll(".nav-link[data-nav]").forEach((el) => {
       el.classList.toggle("nav-link--active", el.dataset.nav === id);
     });
+    window.Ani?.screen(document.getElementById(id));
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
@@ -74,6 +75,8 @@ const App = (() => {
     container.querySelectorAll("[data-mission]").forEach((card) => {
       card.addEventListener("click", () => openBriefing(card.dataset.mission));
     });
+
+    window.Ani?.staggerIn(container);
   }
 
   /* ------------------------------------------------------------------ */
@@ -193,6 +196,8 @@ const App = (() => {
         <span class="stat-card__name">${gauge.icon} ${gauge.label}</span>
         <span class="stat-card__state">${statusLabel(gauge, status, isPool)}</span>`;
       groups[gauge.group].appendChild(card);
+      // Animate ring + readout only when this gauge's value changed.
+      window.Ani?.gauge(card, gauge.id, clamped, Math.round(value));
     }
   }
 
@@ -344,6 +349,7 @@ const App = (() => {
     });
 
     $("event-modal").classList.remove("hidden");
+    window.Ani?.modalIn($("event-modal"));
     window.Sound?.play("alert");
   }
 
@@ -360,12 +366,16 @@ const App = (() => {
   }
 
   function continueAfterEvent() {
-    $("event-modal").classList.add("hidden");
-    if (state.status !== "active") {
-      showResults();
-    } else {
-      renderDashboard();
-    }
+    const finish = () => {
+      $("event-modal").classList.add("hidden");
+      if (state.status !== "active") {
+        showResults();
+      } else {
+        renderDashboard();
+      }
+    };
+    // Animated exit when GSAP is available; instant otherwise.
+    if (!window.Ani?.modalOut($("event-modal"), finish)) finish();
   }
 
   /* ------------------------------------------------------------------ */
@@ -411,14 +421,15 @@ const App = (() => {
 
     $("results-rating").textContent = results.rating.title;
 
-    // Cinematic score count-up (1.2 s, ease-out cubic).
-    animateScore(results.score);
-    $("results-score-bar").style.width = "0%";
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        $("results-score-bar").style.width = `${results.score / 10}%`;
-      });
-    });
+    // Guarantee correctness even if animation tickers are stalled
+    // (background/occluded tab): show the true value immediately, then let
+    // the count-up animation take over visually when frames are running.
+    $("results-score").textContent = results.score;
+    if (!window.Ani?.score($("results-score"), results.score)) {
+      animateScore(results.score);
+    }
+    // CSS transition (width 0.8s) animates the bar without needing rAF.
+    $("results-score-bar").style.width = `${results.score / 10}%`;
 
     $("results-stats").innerHTML = Resources.GAUGES.map((g) => {
       const value = g.id in state.resources ? state.resources[g.id] : state[g.id];
@@ -441,6 +452,7 @@ const App = (() => {
       .map((line) => `<li>${line}</li>`).join("");
 
     showScreen("screen-results");
+    window.Ani?.resultsIn($("screen-results"));
     window.Sound?.play(results.success ? "success" : "fail");
   }
 
@@ -457,6 +469,11 @@ const App = (() => {
       if (t < 1) requestAnimationFrame(frame);
     }
     requestAnimationFrame(frame);
+    // Safety net: if rAF is stalled (hidden/occluded tab), keep the true
+    // final score on screen instead of a stuck "0".
+    setTimeout(() => {
+      if (start === null) el.textContent = target;
+    }, 700);
   }
 
   /* ------------------------------------------------------------------ */
@@ -545,6 +562,7 @@ const App = (() => {
 
     checkForSavedMission();
     buildStarField();
+    window.Ani?.init();
   }
 
   document.addEventListener("DOMContentLoaded", init);
