@@ -271,7 +271,7 @@
     mode = "css";
     canvas.style.display = "none";
     viewport.classList.add("ext-viewport--css");
-    if (reason) console.info("ASTRO COMMAND: exterior view uses CSS fallback.", reason);
+    if (reason) console.info("ASTROCOMMAND: exterior view uses CSS fallback.", reason);
     paintOverlays();
   }
 

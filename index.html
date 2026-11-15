@@ -3,19 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="ASTRO COMMAND — an educational space mission simulation game. Command a lunar or Martian outpost and keep your crew alive." />
-  <title>ASTRO COMMAND | Junior Astronaut Mission Trainer</title>
+  <meta name="description" content="ASTROCOMMAND — an educational space mission simulation game. Command a lunar or Martian outpost and keep your crew alive." />
+  <title>ASTROCOMMAND | Junior Astronaut Mission Trainer</title>
 
   <!-- Typography: Space Grotesk (display) + Inter (body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="css/style.css?v=17" />
+  <link rel="stylesheet" href="css/style.css?v=21" />
   <link rel="stylesheet" href="css/dashboard.css?v=17" />
   <link rel="stylesheet" href="css/academy.css?v=17" />
   <link rel="stylesheet" href="css/level.css?v=17" />
-  <link rel="stylesheet" href="css/responsive.css?v=17" />
+  <link rel="stylesheet" href="css/demo.css?v=1" />
+  <link rel="stylesheet" href="css/responsive.css?v=20" />
 
   <!-- Import map: lets js/three-scene.js (ES module) import Three.js from CDN with no build step.
        If the CDN is unreachable, boot3d.js catches the import failure and the CSS space scene stays. -->
@@ -35,6 +36,9 @@
     <div class="nebula nebula--two"></div>
     <div class="grid-horizon"></div>
   </div>
+  <div class="solar-system-background" aria-hidden="true">
+    <img class="solar-system-background__image" src="assets/images/solar-system.png" alt="" />
+  </div>
 
   <!-- ===================== TOP NAVIGATION ===================== -->
   <header class="topbar">
@@ -51,7 +55,9 @@
       <nav class="topbar__nav" aria-label="Main navigation">
         <button class="nav-link nav-link--active" data-nav="screen-academy" type="button">Academy</button>
         <button class="nav-link" data-nav="screen-landing" type="button">Home</button>
+        <a class="nav-link nav-link--launch" href="launch/index.html" title="Play ASTRO LAUNCH: fly a rocket to the Moon">🚀 Launch</a>
         <button class="nav-link" data-nav="screen-learn" type="button">Learn</button>
+        <button class="nav-link" data-nav="screen-demo" type="button">🎬 Demo</button>
         <button class="nav-link nav-link--danger" id="nav-reset" type="button" title="Delete saved mission and progress">Reset</button>
       </nav>
     </div>
@@ -189,7 +195,7 @@
         <article class="info-card glass">
           <h2 class="info-card__title"><span class="info-card__glyph" aria-hidden="true">🌍</span>About This Project</h2>
           <p>
-            ASTRO COMMAND was built for the <strong>NASA Space Apps Challenge</strong>.
+            ASTROCOMMAND was built for the <strong>NASA Space Apps Challenge</strong>.
             It is an <strong>educational simulation</strong>: all resource numbers, consumption
             rates and event outcomes are <em>simplified game settings invented for play</em> —
             they are <em>not</em> real NASA operational limits.
@@ -211,7 +217,7 @@
 
       <footer class="footer">
         <div class="footer__line" aria-hidden="true"></div>
-        <p>NASA Space Apps Challenge 2026 · ASTRO COMMAND Cadet Division</p>
+        <p>NASA Space Apps Challenge 2026 · ASTROCOMMAND Cadet Division</p>
       </footer>
     </section>
 
@@ -375,6 +381,68 @@
     </section>
 
     <!-- ===================== MODULE 9: LEARN ===================== -->
+    <!-- ===================== DEMO VIDEO (ages 7+) ===================== -->
+    <section id="screen-demo" class="screen" aria-labelledby="demo-heading">
+      <div class="screen-header">
+        <p class="screen-header__eyebrow">WATCH &amp; LEARN</p>
+        <h2 class="screen-header__title" id="demo-heading">Demo Video: Meet ASTROCOMMAND</h2>
+        <p class="screen-header__sub">Astro the astronaut shows you how the game works. Press play!</p>
+      </div>
+
+      <div class="demo">
+        <div class="demo__player" id="demo-player">
+          <div class="demo__stage">
+            <img class="demo__img" id="demo-img" src="assets/images/demo-01-welcome.svg" alt="Astro the astronaut waves hello in front of planet Earth." />
+            <span class="demo__badge" id="demo-badge">Scene 1 of 12</span>
+            <span class="demo__title-chip" id="demo-chip">≈ 2 min</span>
+            <button class="demo__bigplay" id="demo-bigplay" type="button">▶ Watch the demo</button>
+          </div>
+
+          <div class="demo__caption">
+            <div class="demo__guide" aria-hidden="true">🧑‍🚀</div>
+            <div class="demo__caption-body">
+              <p class="demo__scene-title" id="demo-scene-title">Hello, Cadet!</p>
+              <p class="demo__text" id="demo-text"></p>
+            </div>
+          </div>
+
+          <div class="demo__progress">
+            <div class="demo__bar" id="demo-bar" role="progressbar" aria-label="Demo progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+              <span class="demo__fill" id="demo-fill"></span>
+            </div>
+          </div>
+
+          <div class="demo__controls">
+            <button class="demo-ctl" id="demo-prev" type="button" aria-label="Previous scene">⏮ Back</button>
+            <button class="demo-ctl demo-ctl--play" id="demo-play" type="button">▶ Play</button>
+            <button class="demo-ctl" id="demo-next" type="button" aria-label="Next scene">Next ⏭</button>
+            <button class="demo-ctl" id="demo-voice" type="button" aria-pressed="true">🔊 Voice on</button>
+            <button class="demo-ctl" id="demo-speed" type="button" aria-pressed="false" title="Slow reading speed">🐇 Normal</button>
+          </div>
+        </div>
+
+        <h3 class="demo__picker-title">Pick any scene to watch it again</h3>
+        <div class="demo__scenes" id="demo-scenes"></div>
+
+        <div class="demo__learn" aria-label="What you will learn">
+          <div class="demo__chip"><b aria-hidden="true">🫁</b>Space has no air, so we carry it</div>
+          <div class="demo__chip"><b aria-hidden="true">⚖️</b>Every choice has a cost</div>
+          <div class="demo__chip"><b aria-hidden="true">☀️</b>Strong sun rays need a shield</div>
+          <div class="demo__chip"><b aria-hidden="true">🛰️</b>Floating means falling around Earth</div>
+        </div>
+
+        <div class="demo__cta">
+          <button class="btn btn--primary btn--lg" data-nav="screen-academy" type="button">🎓 Start Astronaut Academy</button>
+          <button class="btn btn--ghost btn--lg" data-nav="screen-select" type="button">🚀 Play a Mission</button>
+        </div>
+
+        <p class="demo__note">
+          The numbers in this game are simplified for play. They are not real NASA numbers.
+          Want the real science? Visit the <strong>Learn</strong> page.
+        </p>
+      </div>
+    </section>
+
     <section id="screen-learn" class="screen">
       <div class="screen-header">
         <p class="screen-header__eyebrow">ACADEMY LIBRARY</p>
@@ -523,6 +591,9 @@
   <script src="js/academy-levels.js?v=17"></script>
   <script src="js/academy.js?v=17"></script>
   <script src="js/level-runtime.js?v=17"></script>
+
+  <!-- Demo video player (additive; only touches #screen-demo). -->
+  <script src="js/demo-video.js?v=1"></script>
 
   <!-- Cinematic 3D background (Phase 2). Dynamically imported with WebGL feature
        detection — if unavailable, the CSS space scene remains as fallback. -->

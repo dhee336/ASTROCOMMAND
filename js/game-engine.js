@@ -1,5 +1,5 @@
 /**
- * game-engine.js — ASTRO COMMAND simulation core (Module 7).
+ * game-engine.js — ASTROCOMMAND simulation core (Module 7).
  *
  * Day-by-day progression:
  *   1. Player spends action points on command actions (see resources.js).

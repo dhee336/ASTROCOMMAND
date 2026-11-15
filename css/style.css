@@ -1,5 +1,5 @@
 /* ==========================================================================
-   ASTRO COMMAND — base theme (UI/UX redesign)
+   ASTROCOMMAND — base theme (UI/UX redesign)
    Cinematic, futuristic NASA mission-control aesthetic.
    Deep navy/near-black surfaces · cyan + violet accents · glass cards.
    ========================================================================== */
@@ -99,6 +99,37 @@ button { font-family: inherit; }
   overflow: hidden;
   z-index: -1;
   pointer-events: none;
+}
+
+.solar-system-background {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.solar-system-background::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(2, 3, 10, 0.12);
+}
+
+.space-scene .planet,
+.space-scene .moon {
+  display: none;
+}
+
+.solar-system-background__image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(100%, 146.484375vh);
+  max-width: none;
+  height: auto;
+  transform: translate(-50%, -50%);
+  transform-origin: center;
 }
 
 .star-field { position: absolute; inset: 0; }
@@ -340,6 +371,8 @@ button { font-family: inherit; }
   cursor: pointer;
   transition: color 0.2s, background 0.2s, box-shadow 0.2s;
 }
+
+a.nav-link { display: inline-block; text-decoration: none; font-family: inherit; }
 
 .nav-link:hover { color: var(--text); background: rgba(124, 148, 255, 0.08); }
 

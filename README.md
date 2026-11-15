@@ -1,4 +1,4 @@
-# ASTRO COMMAND 🛰️
+# ASTROCOMMAND 🛰️
 
 **Junior Astronaut Mission Trainer** — an educational space mission simulation game built for the **NASA Space Apps Challenge 2026**.
 
@@ -10,7 +10,7 @@ Command a lunar or Martian outpost: manage limited life-support resources, prote
 
 ## 📌 Project Overview
 
-ASTRO COMMAND is a fully playable browser game. Players act as outpost commanders who must balance **oxygen, water, food and power** while radiation slowly accumulates and the habitat and shielding wear down. Each day brings random emergencies — solar storms, power failures, dust storms, leaks — that must be resolved with meaningful, explained decisions.
+ASTROCOMMAND is a fully playable browser game. Players act as outpost commanders who must balance **oxygen, water, food and power** while radiation slowly accumulates and the habitat and shielding wear down. Each day brings random emergencies — solar storms, power failures, dust storms, leaks — that must be resolved with meaningful, explained decisions.
 
 ## ✨ Features
 
@@ -23,6 +23,7 @@ ASTRO COMMAND is a fully playable browser game. Players act as outpost commander
 - **Scoring & rating** — 0–1000 score based on crew health, remaining resources, habitat integrity and emergencies handled, with an educational debrief
 - **Auto-save** — mission progress is stored in Local Storage and can be resumed after closing the page; a Reset option clears everything
 - **Learn section** — simple-English explanations of ECLSS, oxygen generation, water recycling, space agriculture, radiation and power, with official NASA references
+- **Solar system background** — the supplied illustration stays fully visible, with all eight planets and labels upright on every screen
 - **Responsive** — polished desktop and mobile layouts
 
 ## 🛠️ Technology Stack
@@ -33,6 +34,7 @@ ASTRO COMMAND is a fully playable browser game. Players act as outpost commander
 | Styling | CSS3 (three modular stylesheets, CSS custom properties) |
 | Logic | Vanilla JavaScript (modular IIFE modules, no frameworks) |
 | Charts | [Chart.js 4](https://www.chartjs.org/) via CDN |
+| 3D scenes | Three.js via CDN |
 | Persistence | Local Storage |
 | Backend | None — runs 100% locally, no API keys, no paid services |
 
@@ -61,6 +63,14 @@ npx serve .
 ### For development
 Serve the folder and edit any file — refresh the browser to see changes.
 
+## 🎬 Demo videos
+
+- [ASTROCOMMAND_NASA_30sec_Demo.mp4](demo/ASTROCOMMAND_NASA_30sec_Demo.mp4) — 30-second project demo
+- [Overall_Project_Walkthrough.mp4](demo/Overall_Project_Walkthrough.mp4) — project walkthrough
+- [Rocket_Launch_Demo.mp4](demo/Rocket_Launch_Demo.mp4) — ASTRO LAUNCH gameplay
+
+The MP4s are tracked with Git LFS. Install Git LFS before cloning if you want to download and play the video files. The game itself does not require Git LFS.
+
 ## 🎮 Game Mechanics
 
 1. **Choose a mission** (Lunar or Martian) and read the briefing.
@@ -78,22 +88,15 @@ Serve the folder and edit any file — refresh the browser to see changes.
 ## 📁 Project Structure
 
 ```
-ASTRO-COMMAND/
-├── index.html            # All screens: landing, select, briefing, dashboard, results, learn
-├── css/
-│   ├── style.css         # Base theme: space background, cards, buttons, landing
-│   ├── dashboard.css     # Mission control dashboard, event modal, results
-│   └── responsive.css    # Tablet / mobile / reduced-motion adjustments
-├── js/
-│   ├── storage.js        # Local Storage save / load / reset
-│   ├── missions.js       # Lunar & Martian mission definitions (simplified game values)
-│   ├── resources.js      # Gauges, clamping, status tiers, command actions
-│   ├── events.js         # Emergency events with shown consequences
-│   ├── game-engine.js    # Day loop, consumption, failure checks, scoring, feedback
-│   └── app.js            # Screen routing, dashboard rendering, modal, charts
+ASTROCOMMAND/
 ├── assets/
-│   ├── images/           # Reserved for future imagery
-│   └── icons/            # Reserved for future icons
+│   ├── images/           # Solar-system background and demo illustrations
+│   └── icons/
+├── css/                  # Main, dashboard, academy, level, demo and responsive styles
+├── demo/                 # Three project demonstration videos (Git LFS)
+├── js/                   # Mission engine, Academy, UI, persistence and demo scripts
+├── launch/               # Standalone ASTRO LAUNCH game (HTML, CSS and JavaScript)
+├── index.html            # Main ASTROCOMMAND application
 ├── README.md
 └── .gitignore
 ```
@@ -110,7 +113,7 @@ The game does **not** display live NASA data, and all in-game numbers are clearl
 
 ## 👥 Team Information
 
-**ASTRO COMMAND Cadet Division** — built for the NASA Space Apps Challenge 2026.
+**ASTROCOMMAND Cadet Division** — built for the NASA Space Apps Challenge 2026.
 
 | Role | Responsibility |
 |---|---|
@@ -123,3 +126,13 @@ The game does **not** display live NASA data, and all in-game numbers are clearl
 ---
 
 Made with 💜 for NASA Space Apps Challenge 2026.
+
+
+## 🚀 ASTRO LAUNCH (bonus game)
+
+A companion 3D rocket game for ages 7–12 lives in [`launch/`](launch/index.html) and is reachable from the **🚀 Launch** link in the top navigation (beside Home). Fly a simulated Earth-to-Moon mission: build the rocket, load fuel, board, count down, launch, navigate, land and drive the rover.
+
+- Standalone: it has its own `launch/css/launch.css` and `launch/js/launch.js`, and it does not touch ASTROCOMMAND's code or saved data (Local Storage key `astro-launch`).
+- Uses Three.js r128 from the cdnjs CDN, so an internet connection is needed.
+- All numbers are simplified simulation values, not real NASA data. This is not an official NASA simulator.
+- The Moon mission is playable; the Mars mission is not built yet.

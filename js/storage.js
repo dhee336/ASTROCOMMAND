@@ -1,5 +1,5 @@
 /**
- * storage.js — Local Storage persistence for ASTRO COMMAND.
+ * storage.js — Local Storage persistence for ASTROCOMMAND.
  * Saves the active mission state, a resume flag, and long-term best scores.
  */
 const Storage = (() => {
@@ -13,7 +13,7 @@ const Storage = (() => {
     try {
       localStorage.setItem(SAVE_KEY, JSON.stringify(state));
     } catch (err) {
-      console.warn("ASTRO COMMAND: could not save mission.", err);
+      console.warn("ASTROCOMMAND: could not save mission.", err);
     }
   }
 
@@ -25,7 +25,7 @@ const Storage = (() => {
       const state = JSON.parse(raw);
       return (state && state.status === "active") ? state : null;
     } catch (err) {
-      console.warn("ASTRO COMMAND: saved mission is unreadable.", err);
+      console.warn("ASTROCOMMAND: saved mission is unreadable.", err);
       return null;
     }
   }
@@ -35,7 +35,7 @@ const Storage = (() => {
     try {
       localStorage.removeItem(SAVE_KEY);
     } catch (err) {
-      console.warn("ASTRO COMMAND: could not clear save.", err);
+      console.warn("ASTROCOMMAND: could not clear save.", err);
     }
   }
 
@@ -55,7 +55,7 @@ const Storage = (() => {
     try {
       localStorage.setItem(STATS_KEY, JSON.stringify(stats));
     } catch (err) {
-      console.warn("ASTRO COMMAND: could not save stats.", err);
+      console.warn("ASTROCOMMAND: could not save stats.", err);
     }
     return stats;
   }

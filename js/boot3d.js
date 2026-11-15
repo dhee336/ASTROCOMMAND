@@ -44,7 +44,7 @@
   import("./three-scene.js?v=16")
     .then((module) => module.initSpaceScene({ holder, reducedMotion }))
     .catch((err) => {
-      console.info("ASTRO COMMAND: 3D scene unavailable, using CSS fallback.", err);
+      console.info("ASTROCOMMAND: 3D scene unavailable, using CSS fallback.", err);
       holder.remove();
     });
 })();

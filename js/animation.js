@@ -1,5 +1,5 @@
 /**
- * animation.js — Phase 3 GSAP animation layer for ASTRO COMMAND.
+ * animation.js — Phase 3 GSAP animation layer for ASTROCOMMAND.
  *
  * Purely decorative: never reads or writes game state, only animates DOM.
  * Design rules:

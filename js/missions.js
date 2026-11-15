@@ -1,5 +1,5 @@
 /**
- * missions.js — Mission definitions for ASTRO COMMAND.
+ * missions.js — Mission definitions for ASTROCOMMAND.
  *
  * ⚠️ All values are SIMPLIFIED GAME SETTINGS invented for play.
  *    They are not real NASA operational limits or mission data.

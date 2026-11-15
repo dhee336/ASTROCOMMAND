@@ -1,5 +1,5 @@
 /**
- * app.js — ASTRO COMMAND UI layer (Modules 1–9).
+ * app.js — ASTROCOMMAND UI layer (Modules 1–9).
  * Owns screen routing, dashboard rendering, the event modal and results.
  * Game rules live in game-engine.js; UI never changes resource values directly.
  */
