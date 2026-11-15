@@ -31,7 +31,7 @@ ASTROCOMMAND is a fully playable browser game. Players act as outpost commanders
 | Layer | Choice |
 |---|---|
 | Structure | HTML5 (single page, section-based screens) |
-| Styling | CSS3 (three modular stylesheets, CSS custom properties) |
+| Styling | CSS3 (modular stylesheets with CSS custom properties) |
 | Logic | Vanilla JavaScript (modular IIFE modules, no frameworks) |
 | Charts | [Chart.js 4](https://www.chartjs.org/) via CDN |
 | 3D scenes | Three.js via CDN |
